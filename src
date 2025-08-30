@@ -1,0 +1,47 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
+export default function App() {
+  const slides = ["/house1.jpg", "/house2.jpg", "/house3.jpg"];
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <nav className="fixed top-0 left-0 w-full bg-white shadow z-50 p-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-emerald-700">Jade Real Estate Services</h1>
+        <div className="space-x-4">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#projects">Listings</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+
+      <section className="h-screen flex items-center justify-center relative">
+        <img
+          src={slides[current]}
+          alt="Real Estate Slide"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 text-center text-white"
+        >
+          <h2 className="text-4xl font-bold mb-4">Find Your Dream Home</h2>
+          <p className="mb-6">With Jade Real Estate Services</p>
+        </motion.div>
+      </section>
+    </div>
+  );
+}
